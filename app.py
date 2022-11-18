@@ -35,6 +35,10 @@ if choice == "Setup Data":
     st.title("Choose your target variable")
     
     targetVariable = st.selectbox('Choose your target variable"',df.columns.tolist())
+    st.write(pd.factorize(df[targetVariable]))
+    
+    if targetVariable:
+        st.write(df[targetVariable].unique())
     st.session_state.target_variable = targetVariable
     st.title("Rename columns")
     form = st.form(key=f"form_1")
@@ -46,6 +50,7 @@ if choice == "Setup Data":
         for i in range(len(df.columns.tolist())):
             new_columns.append(st.session_state[f'input_{i}'])
         df.set_axis(new_columns, axis=1, inplace=True)
+        df[targetVariable] = pd.factorize(df[targetVariable])[0]
         st.session_state.df = df
 
 
@@ -67,9 +72,6 @@ if choice == "Data Analyse":
 
     with st.expander("Summery Non-categorial"):
         st.dataframe(df.describe())
-
-    with st.expander("Summery Categorial"):
-        st.dataframe(df.describe(include=np.object))
 
     with st.expander("Target Variable"):
         st.bar_chart(df[st.session_state.target_variable].value_counts())
