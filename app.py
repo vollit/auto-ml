@@ -29,7 +29,7 @@ if choice == "Upload dataset":
     st.title("Upload dataset")
     file = st.file_uploader("Upload Your Dataset")
     
-    with open('./example-data/Breast-cancer-data.csv', 'rb') as f:
+    with open('./example-data/Breast_cancer_data.csv', 'rb') as f:
         st.download_button('Download example file', f, file_name='breast-cancer-data.csv')
     
     if file: 
