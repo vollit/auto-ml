@@ -29,6 +29,9 @@ if choice == "Upload dataset":
     st.title("Upload dataset")
     file = st.file_uploader("Upload Your Dataset")
     
+    with open('./example-data/breast-cancer-data.csv', 'rb') as f:
+        st.download_button('Download example file', f, file_name='breast-cancer-data.csv')
+    
     if file: 
         df = pd.read_csv(file, index_col=None, delimiter=',')
         df.to_csv('dataset.csv', index=None)
@@ -204,7 +207,7 @@ if choice == "Visualise":
     ebm_global = ebm.explain_global()
     st.plotly_chart(ebm_global.visualize())
      
-    features = st.multiselect('Kies features om te visualiseren', df.columns)
+    features = st.multiselect('Choose features to visualise', df.columns)
     
     for x in range(len(features)):
         st.plotly_chart(ebm_global.visualize(x))
